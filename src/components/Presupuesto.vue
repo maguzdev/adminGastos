@@ -9,7 +9,7 @@
     const emit = defineEmits(['definir-presupuesto']);
 
 	const añadirPresupuesto = () => {
-		if (presupuesto.value <= 0 || isNaN(presupuesto.value)) {
+		if (inputPresupuesto.value <= 0 || isNaN(inputPresupuesto.value)) {
             mensajeError.value = 'El presupuesto debe ser un número válido mayor que cero.';
 			setTimeout(() => {
 				mensajeError.value = '';
