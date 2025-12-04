@@ -1,8 +1,11 @@
 <script setup>
 	import { ref } from "vue";
 	import Alerta from "./Alerta.vue";
-	const presupuesto = ref('');
+
+	const inputPresupuesto = ref('');
     const mensajeError = ref('');
+    
+    const emit = defineEmits(['definir-presupuesto']);
 
 	const añadirPresupuesto = () => {
 		if (presupuesto.value <= 0 || isNaN(presupuesto.value)) {
@@ -12,8 +15,8 @@
 			}, 3000);
 			return;
 		}
-
-		console.log("Presupuesto añadido:", presupuesto.value);
+        emit('definir-presupuesto', inputPresupuesto.value);
+		// console.log("Presupuesto añadido:", presupuesto.value);
 	};
 </script>
 
@@ -36,7 +39,7 @@
 				type="number"
 				class="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xl"
 				placeholder="Añade tu presupuesto"
-				v-model.number="presupuesto"
+				v-model.number="inputPresupuesto"
 			/>
 		</div>
 
