@@ -5,6 +5,7 @@
 	const inputPresupuesto = ref('');
     const mensajeError = ref('');
     
+
     const emit = defineEmits(['definir-presupuesto']);
 
 	const añadirPresupuesto = () => {

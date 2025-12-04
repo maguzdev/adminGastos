@@ -1,13 +1,35 @@
 <script setup>
 	import Presupuesto from "./components/Presupuesto.vue";
-	import { ref } from "vue";
+	import ControlPresupuesto from "./components/ControlPresupuesto.vue";
+	import { ref, computed } from "vue";
 
 	const presupuesto = ref(0);
+	const gastos = ref([
+		{ id: 1, nombre: "Comida", cantidad: 100 },
+		{ id: 2, nombre: "Transporte", cantidad: 200 },
+		{ id: 3, nombre: "Entretenimiento", cantidad: 50 }
+	]);
+
 
 	const definirPresupuesto = (cantidad) => {
 		presupuesto.value = cantidad;
 		console.log("Presupuesto definido en App.vue:", presupuesto.value);
-	}
+	};
+
+	const resetearApp = () => {
+		presupuesto.value = 0;
+		gastos.value = [];
+	};
+
+	const totalGastos = computed(() => {
+		return gastos.value.reduce((total, gasto) => total + gasto.cantidad, 0);
+	})
+
+	const disponible = computed(() => {
+		return presupuesto.value - totalGastos.value;
+	});
+
+
 </script>
 
 <template>
@@ -19,13 +41,18 @@
 			<div
 				class="mx-auto max-w-3xl transform translate-y-14 p-14 bg-white shadow-lg rounded-lg"
 			>
-				<Presupuesto 
+				<Presupuesto
 					v-if="presupuesto === 0"
-					@definir-presupuesto="definirPresupuesto" 
+					@definir-presupuesto="definirPresupuesto"
 				/>
 				<div v-else class="text-center">
-					<h2 class="text-2xl font-semibold mb-4">Presupuesto Definido:</h2>
-					<p class="text-3xl text-gray-700">$ {{ presupuesto }}</p>
+					<ControlPresupuesto
+						:presupuesto="presupuesto"
+						:gastos="gastos"
+						:disponible="disponible"
+						:total-gastos="totalGastos"
+						@resetear-app="resetearApp"
+					/>
 				</div>
 			</div>
 		</header>
